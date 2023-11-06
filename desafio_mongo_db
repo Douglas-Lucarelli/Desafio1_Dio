@@ -1,0 +1,52 @@
+
+import pprint
+import pymongo as pyM
+
+client = pyM.MongoClient("mongodb+srv://douglasrukarelli:pymongo@cluster0.9ijjeh3.mongodb.net/?retryWrites=true&w=majority")
+db = client.test
+collection = db.test_collection
+print(db.list_collection_names)
+
+bank = {
+    "cliente": "Douglas",
+    "cpf": "391222555",
+    "endereco": "rua das arvores, 200",
+    "conta": ["0001", "300",521]
+}
+
+new_bank=[{  "cliente": "Thais",
+    "cpf": "298171152",
+    "endereco": "rua das rosas , 301",
+    "conta": ["0002", "222",521]},
+
+{  "cliente": "Brian",
+    "cpf": "123456789",
+    "endereco": "rua inglesa , 125",
+    "conta": ["003", "232",1500]},
+
+
+          ]
+
+
+
+
+
+banks=db.banks
+banks_id=banks.insert_one(bank).inserted_id
+print(banks_id)
+
+
+result = banks.insert_many(new_bank)
+print(banks_id)
+
+print(banks.find())
+
+for bank in banks.find():
+    pprint.pprint(bank)
+
+banks.delete_one({"cliente":"douglas"})
+print(banks.count_documents({}))
+
+collections = db.list_collection_names()
+for name in collections:
+    print(name)
